@@ -1,0 +1,70 @@
+:root {
+  --accent: #2563eb;
+  --bg: #ffffff;
+  --fg: #1f2933;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --card: #f9fafb;
+  --sidebar-w: 240px;
+  --font-sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font-sans); color: var(--fg); background: var(--bg); }
+
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w);
+  border-right: 1px solid var(--border); padding: 20px 16px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.sidebar .brand { display: flex; align-items: baseline; gap: 8px; }
+.sidebar .brand strong { font-size: 16px; }
+.sidebar .brand .ver { color: var(--muted); font-size: 12px; }
+.sidebar nav { display: flex; flex-direction: column; gap: 2px; }
+.sidebar nav a { color: var(--fg); text-decoration: none; padding: 6px 10px; border-radius: 6px; font-size: 14px; }
+.sidebar nav a:hover { background: var(--card); }
+.sidebar nav a.active { background: var(--accent); color: #fff; }
+.sidebar .links { margin-top: auto; font-size: 13px; color: var(--muted); }
+.sidebar .links a { color: var(--accent); text-decoration: none; }
+.nav-toggle { display: none; }
+
+main { margin-left: var(--sidebar-w); padding: 32px 28px; }
+.doc-section { padding: 20px 0 40px; border-bottom: 1px solid var(--border); scroll-margin-top: 20px; }
+.doc-section h2 { font-size: 22px; margin: 0 0 6px; }
+.blurb { color: var(--muted); margin: 0 0 16px; line-height: 1.5; }
+
+.data-wrap { margin: 0 0 16px; }
+table.data-table { border-collapse: collapse; width: 100%; }
+table.data-table th, table.data-table td { border: 1px solid var(--border); padding: 4px; text-align: left; }
+table.data-table th { background: var(--card); font-size: 12px; }
+table.data-table input { width: 100%; border: 1px solid transparent; padding: 4px 6px; font: inherit; background: transparent; }
+table.data-table input:focus { border-color: var(--accent); outline: none; border-radius: 4px; }
+.row-del { border: none; background: none; color: #b91c1c; cursor: pointer; font-size: 16px; line-height: 1; }
+.row-add { margin-top: 8px; border: 1px dashed var(--border); background: var(--card); padding: 6px 12px; border-radius: 6px; cursor: pointer; font: inherit; color: var(--muted); }
+
+.code-card { position: relative; margin: 0 0 16px; }
+.code-card pre { margin: 0; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; overflow: auto; }
+.code-card code { font-family: var(--font-mono); font-size: 13px; line-height: 1.5; }
+.copy-btn { position: absolute; top: 8px; right: 8px; border: 1px solid var(--border); background: #fff; border-radius: 6px; padding: 4px 10px; font-size: 12px; cursor: pointer; }
+
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.action-btn { border: none; background: var(--accent); color: #fff; padding: 8px 14px; border-radius: 6px; cursor: pointer; font: inherit; }
+.action-btn:hover { filter: brightness(1.05); }
+.status { color: var(--muted); font-size: 13px; }
+
+.preview { border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: #fff; }
+.preview-cap { margin: 0 0 12px; font-size: 12px; color: var(--muted); }
+.preview-sub { margin: 16px 0 6px; font-size: 13px; color: var(--muted); }
+.preview-report { border: 1px solid var(--border); border-radius: 6px; padding: 12px; }
+table.csv-table { border-collapse: collapse; width: 100%; font-size: 12px; }
+table.csv-table th, table.csv-table td { border: 1px solid var(--border); padding: 4px 8px; text-align: left; }
+table.csv-table th { background: var(--card); }
+
+@media (max-width: 800px) {
+  .sidebar { position: sticky; width: auto; inset: auto; border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; align-items: center; flex-wrap: wrap; }
+  .sidebar nav { display: none; width: 100%; }
+  body.nav-open .sidebar nav { display: flex; }
+  .sidebar .links { margin: 0; }
+  .nav-toggle { display: inline-block; margin-left: auto; border: 1px solid var(--border); background: #fff; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+  main { margin-left: 0; padding: 20px 16px; }
+}
