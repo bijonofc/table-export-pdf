@@ -1,7 +1,5 @@
 name: Publish to npm
 
-# Publishes when you create a GitHub Release (recommended), so the git tag,
-# release notes and npm version all stay in sync.
 on:
   push:
     branches:
@@ -10,13 +8,19 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write # required for npm provenance
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
@@ -25,22 +29,74 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
-
-      - name: Test
+      - name: Run Tests
         run: npm test
 
-      # Fails early if the release tag (e.g. v1.2.3) doesn't match package.json.
-      - name: Verify tag matches package.json version
+      - name: Build Package
+        run: npm run build
+
+      - name: Read package information
+        id: package
         run: |
-          PKG_VERSION="v$(node -p "require('./package.json').version")"
-          if [ "${GITHUB_REF_NAME}" != "$PKG_VERSION" ]; then
-            echo "::error::Release tag ${GITHUB_REF_NAME} does not match package.json version $PKG_VERSION"
-            exit 1
+          echo "name=$(node -p "require('./package.json').name")" >> $GITHUB_OUTPUT
+          echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Check npm version
+        id: npm
+        run: |
+          PACKAGE="${{ steps.package.outputs.name }}"
+          VERSION="${{ steps.package.outputs.version }}"
+
+          echo "Checking $PACKAGE@$VERSION"
+
+          if npm view "$PACKAGE@$VERSION" version > /dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Version already exists."
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "New version detected."
           fi
 
-      - name: Publish
+      - name: Publish to npm
+        if: steps.npm.outputs.exists == 'false'
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create Git Tag
+        if: steps.npm.outputs.exists == 'false'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const version='v${{ steps.package.outputs.version }}';
+
+            try{
+              await github.rest.git.createRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref:`refs/tags/${version}`,
+                sha:context.sha
+              });
+
+              console.log(`Created ${version}`);
+            }catch(e){
+              console.log("Tag already exists");
+            }
+
+      - name: Create GitHub Release
+        if: steps.npm.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.package.outputs.version }}
+          generate_release_notes: true
+          make_latest: true
+
+      - name: Summary
+        run: |
+          if [ "${{ steps.npm.outputs.exists }}" = "true" ]; then
+            echo "Package already exists on npm."
+            echo "Publish skipped."
+          else
+            echo "Published successfully."
+          fi
