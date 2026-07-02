@@ -1,5 +1,11 @@
 # table-export-pdf
 
+[![npm version](https://img.shields.io/npm/v/@bijon059/table-export-pdf.svg)](https://www.npmjs.com/package/@bijon059/table-export-pdf)
+[![npm downloads](https://img.shields.io/npm/dm/@bijon059/table-export-pdf.svg)](https://www.npmjs.com/package/@bijon059/table-export-pdf)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/@bijon059/table-export-pdf.svg)](https://bundlephobia.com/package/@bijon059/table-export-pdf)
+[![license](https://img.shields.io/npm/l/@bijon059/table-export-pdf.svg)](./LICENSE)
+[![types included](https://img.shields.io/npm/types/@bijon059/table-export-pdf.svg)](#typescript)
+
 Small, dependency-light helpers to export a table (columns + array-of-rows) to:
 
 - **CSV** — `exportTableCSV()`
@@ -32,6 +38,20 @@ npm install html2pdf.js
 > `html2pdf.js` is declared as an **optional peer dependency** — you only need it if you
 > call `downloadTablePDF()`. It is lazy-imported on first use, so it won't bloat your
 > bundle if you never call that function.
+
+### Via a CDN (no build step)
+
+The UMD build exposes a global `TableExportPdf` and works straight from a `<script>` tag:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@bijon059/table-export-pdf"></script>
+<!-- only needed if you call downloadTablePDF() -->
+<script src="https://cdn.jsdelivr.net/npm/html2pdf.js/dist/html2pdf.bundle.min.js"></script>
+<script>
+  const { exportTableCSV, exportTablePDF, downloadTablePDF } = window.TableExportPdf;
+  exportTableCSV('report.csv', [{ title: 'A' }], [['1']]);
+</script>
+```
 
 ---
 
@@ -322,6 +342,60 @@ export default {
 
 ---
 
+<a id="typescript"></a>
+
+## TypeScript
+
+Type declarations ship with the package (`dist/index.d.ts`) — no `@types/*` install
+needed. Every export is fully typed, including `Column`, `FormattedCell`, `SummaryItem`
+and `PageSize`:
+
+```ts
+import { downloadTablePDF, type Column } from '@bijon059/table-export-pdf';
+
+const columns: Column[] = [
+  { key: 'name', title: 'Name' },
+  { key: 'amount', title: 'Amount', align: 'end', format: v => ({ csv: v, html: `$${v}` }) },
+];
+
+await downloadTablePDF('Report', columns, rows, { pageBreak: true });
+```
+
+---
+
+## Browser support
+
+Works in any modern, evergreen browser (Chrome, Edge, Firefox, Safari). The library uses
+`Blob`, `URL.createObjectURL`, dynamic `import()`, and standard DOM APIs.
+
+- `exportTableCSV` / `exportTablePDF` / `buildCSVString` / `renderReportHTML` have **zero
+  runtime dependencies**.
+- `downloadTablePDF` additionally loads `html2pdf.js` (which uses `<canvas>`) on first call.
+- These are **browser-only** APIs — the DOM/`Blob`-based exports won't run under Node.
+  The pure string builders (`buildCSVString`, `renderReportHTML`, `normalizeTable`, …)
+  are safe to use headless (SSR, tests, previews).
+
+---
+
+## Contributing
+
+Contributions are welcome!
+
+```bash
+git clone https://github.com/bijonofc/table-export-pdf.git
+cd table-export-pdf
+npm install
+npm run dev     # open the docs/playground at the printed localhost URL
+npm test        # run the unit tests (node --test)
+npm run build   # produce dist/ (ESM + UMD + type declarations)
+```
+
+1. Open an issue to discuss significant changes before starting.
+2. Keep the public API backward-compatible; add tests for new behavior.
+3. Run `npm test` and `npm run build` before opening a pull request.
+
+---
+
 ## License
 
-MIT
+[MIT](./LICENSE) © bijon059
