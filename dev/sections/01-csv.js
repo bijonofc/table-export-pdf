@@ -11,7 +11,7 @@ export default {
     actions: ['csv'],
     previewTitle: 'Outlet Ledger',
     storeName: 'My Store',
-    code: `import { exportTableCSV } from 'table-export-pdf';
+    code: `import { exportTableCSV } from '@bijon/table-export-pdf';
 
 const columns = [
   { title: 'Date' },

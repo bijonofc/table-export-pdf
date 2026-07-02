@@ -12,7 +12,7 @@ export default {
     previewTitle: 'Outlet Ledger',
     storeName: 'My Store',
     summary: ledgerSummary,
-    code: `import { downloadTablePDF } from 'table-export-pdf';
+    code: `import { downloadTablePDF } from '@bijon/table-export-pdf';
 
 await downloadTablePDF('Outlet Ledger', columns, rows, {
   storeName: 'My Store',

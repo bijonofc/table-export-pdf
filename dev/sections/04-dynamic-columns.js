@@ -19,7 +19,7 @@ export default {
     actions: ['csv', 'download'],
     previewTitle: 'Line Items',
     storeName: 'My Store',
-    code: `import { downloadTablePDF } from 'table-export-pdf';
+    code: `import { downloadTablePDF } from '@bijon/table-export-pdf';
 
 const columns = [
   { key: 'sku', title: 'SKU' },

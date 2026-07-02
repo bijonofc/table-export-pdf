@@ -18,11 +18,12 @@ all opt-in.
 
 ## Install
 
-Copy the `table-export-pdf/` folder into your project (e.g. `src/libraries/table-export-pdf`)
-and import from it, **or** install it as a local package.
+```bash
+npm install @bijon/table-export-pdf
+```
 
-`downloadTablePDF()` needs `html2pdf.js`. Everything else (CSV + print-dialog PDF) has
-zero dependencies.
+`downloadTablePDF()` additionally needs `html2pdf.js`. Everything else (CSV + print-dialog
+PDF) has zero dependencies.
 
 ```bash
 npm install html2pdf.js
@@ -37,7 +38,7 @@ npm install html2pdf.js
 ## Quick start
 
 ```js
-import { downloadTablePDF, exportTablePDF, exportTableCSV } from 'table-export-pdf';
+import { downloadTablePDF, exportTablePDF, exportTableCSV } from '@bijon/table-export-pdf';
 
 // 1. Describe the columns (title is used verbatim — translate beforehand).
 const columns = [
@@ -233,7 +234,7 @@ Returns the exact CSV text `exportTableCSV` would download — including the UTF
 server-side generation.
 
 ```js
-import { buildCSVString } from 'table-export-pdf';
+import { buildCSVString } from '@bijon/table-export-pdf';
 const csv = buildCSVString(columns, rows); // "﻿Date,Amount\r\n…"
 ```
 
@@ -246,7 +247,7 @@ pagination, repeating headers, and page numbers are applied by `downloadTablePDF
 render time, not present in this string.
 
 ```js
-import { renderReportHTML } from 'table-export-pdf';
+import { renderReportHTML } from '@bijon/table-export-pdf';
 document.querySelector('#preview').innerHTML =
   renderReportHTML('Outlet Ledger', columns, rows, { storeName: 'My Store' });
 ```
@@ -282,7 +283,7 @@ The library is plain ESM — import it in any component. See
 component. The essential part:
 
 ```js
-import { downloadTablePDF } from 'table-export-pdf';
+import { downloadTablePDF } from '@bijon/table-export-pdf';
 
 export default {
   methods: {
