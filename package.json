@@ -1,5 +1,5 @@
 {
-  "name": "@bijon/table-export-pdf",
+  "name": "@bijon059/table-export-pdf",
   "version": "1.0.0",
   "description": "Framework-agnostic helpers to export an array-of-rows table to CSV and to a print-quality PDF (with repeating headers, page breaks and page numbers). Works in any browser project; drop-in for Vue 3.",
   "type": "module",

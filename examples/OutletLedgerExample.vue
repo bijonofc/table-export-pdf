@@ -4,7 +4,7 @@
   Adjust the import path to wherever you dropped the library, e.g.
     import { downloadTablePDF, exportTableCSV } from '@/libraries/table-export-pdf';
   or, if installed as a package:
-    import { downloadTablePDF, exportTableCSV } from '@bijon/table-export-pdf';
+    import { downloadTablePDF, exportTableCSV } from '@bijon059/table-export-pdf';
 -->
 <template>
   <div>

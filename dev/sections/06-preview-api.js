@@ -11,7 +11,7 @@ export default {
     actions: ['csv', 'download'],
     previewTitle: 'Outlet Ledger',
     storeName: 'My Store',
-    code: `import { renderReportHTML, buildCSVString } from '@bijon/table-export-pdf';
+    code: `import { renderReportHTML, buildCSVString } from '@bijon059/table-export-pdf';
 
 // Exact report markup the PDF is built from:
 const html = renderReportHTML('Outlet Ledger', columns, rows, { storeName: 'My Store' });
