@@ -4,7 +4,8 @@
   "description": "Framework-agnostic helpers to export an array-of-rows table to CSV and to a print-quality PDF (with repeating headers, page breaks and page numbers). Works in any browser project; drop-in for Vue 3.",
   "type": "module",
   "license": "MIT",
-  "author": "bijon059 (https://github.com/bijonofc)",
+  "name": "Bijon Munshi",
+  "url": "https://github.com/bijonofc",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bijonofc/table-export-pdf.git"
@@ -14,17 +15,20 @@
     "url": "https://github.com/bijonofc/table-export-pdf/issues"
   },
   "keywords": [
-    "pdf",
-    "csv",
-    "export",
-    "table",
-    "html2pdf",
-    "jspdf",
-    "report",
-    "print",
-    "browser",
-    "vue",
-    "vue3"
+     "pdf",
+  "csv",
+  "table",
+  "export",
+  "table-export",
+  "pdf-export",
+  "csv-export",
+  "vue",
+  "vue3",
+  "javascript",
+  "typescript",
+  "browser",
+  "html2pdf",
+  "jspdf"
   ],
   "sideEffects": false,
   "main": "./dist/table-export-pdf.umd.js",
@@ -71,5 +75,9 @@
     "html2pdf.js": "^0.10.1",
     "typescript": "^6.0.3",
     "vite": "^5.4.0"
-  }
+  },
+  "funding": {
+  "type": "github",
+  "url": "https://github.com/sponsors/bijonofc"
+}
 }
