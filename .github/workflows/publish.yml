@@ -3,8 +3,9 @@ name: Publish to npm
 # Publishes when you create a GitHub Release (recommended), so the git tag,
 # release notes and npm version all stay in sync.
 on:
-  release:
-    types: [published]
+push:
+  branches:
+      - release
 
 jobs:
   publish:
